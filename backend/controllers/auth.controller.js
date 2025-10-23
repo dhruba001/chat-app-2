@@ -1,7 +1,6 @@
 // user authentication
 export const loginUser = (req, res) => {
   res.send("login route");
-  console.log("login");
 };
 
 export const logoutUser = (req, res) => {

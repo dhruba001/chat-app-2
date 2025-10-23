@@ -9,11 +9,11 @@ import {
 const router = express.Router();
 
 // api routes
-router.get("/login", loginUser);
+router.post("/login", loginUser);
 
-router.get("/signup", signupUser);
+router.post("/signup", signupUser);
 
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 
 // export the middleware to server.js : authRoutes
 export default router;
