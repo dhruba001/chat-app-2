@@ -6,11 +6,11 @@ import mongoose from "mongoose";
 
 // this is how each instance of an users collection [i.e table] entry will look like
 const userSchema = new mongoose.Schema({
-  firstName: {
+  fullName: {
     type: String,
     required: true,
   },
-  userNmae: {
+  userName: {
     type: String,
     required: true,
     unique: true,
