@@ -1,5 +1,6 @@
 // Here we will make the table skeleton for user table, later we will make one for messages.
 // here we will make the schema or class for user, with name, email, password and other
+// this will be used for user authentication purpose only
 
 import mongoose from "mongoose";
 
