@@ -36,7 +36,12 @@ export const signupUser = async (req, res) => {
     });
     // making final db entry
     await newUser.save();
-    res.status(200).json({ message: "user created successfully" });
+    res.status(201).json({
+      _id: newUser._id,
+      fullName: newUser.fullName,
+      userName: newUser.userName,
+      profilePic: newUser.profilePic,
+    });
   } catch (error) {}
 };
 
