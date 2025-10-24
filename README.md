@@ -1,2 +1,2 @@
-# chat-app-2
+# chat-app-v2
 real time chat app without image uploads
