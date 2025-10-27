@@ -1,4 +1,4 @@
-// mongodb initialization
+// mongodb initialization and connection
 import mongoose from "mongoose";
 
 const connectToMongoDB = async () => {
@@ -11,3 +11,10 @@ const connectToMongoDB = async () => {
 };
 
 export default connectToMongoDB;
+
+/*
+Term:-	      Role:-
+Schema	-    Defines structure and rules for a document
+Model	   -   Provides an interface to interact with the collection [ table ]
+Document	-  Actual record (instance) stored in MongoDB
+*/
