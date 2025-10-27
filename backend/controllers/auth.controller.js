@@ -2,6 +2,7 @@
 // will be used as a api descriptiosn for authentication api's only
 
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 // descriptions of api's used in authentication part
 
@@ -20,29 +21,46 @@ export const signupUser = async (req, res) => {
     }
 
     // todo: password hashing
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Here we're calling a api service who will give us random profile pic, but with constant username the profile pic will be static
     // https://avatar.iran.liara.run/public/boy?username=dhruba --> this will be fixed everytime we refresh
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
 
-    // making a new user from the data we got
+    // making a new user from the data we got, directly adding the fullname  and other variable
     const newUser = new User({
       fullName,
       userName,
-      password,
+      password: hashedPassword,
       gender,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
     });
-    // making final db entry
-    await newUser.save();
-    res.status(201).json({
-      _id: newUser._id,
-      fullName: newUser.fullName,
-      userName: newUser.userName,
-      profilePic: newUser.profilePic,
-    });
-  } catch (error) {}
+    if (newUser) {
+      // making final db entry
+      await newUser.save();
+      /*
+    Now newUser.fullName is the value as it exists in the MongoDB document after Mongoose has processed it — including:
+    any schema-level transformations or defaults,
+    validations or virtuals,
+    potential middleware modifications.
+    By using newUser.fullName, you ensure you’re returning the authoritative, saved value from the database, not just echoing the input.
+    If you used { fullName }, you’d return the raw request data, which might differ from the stored document if any schema logic or transformations were applied.
+     */
+      res.status(201).json({
+        _id: newUser._id,
+        fullName: newUser.fullName,
+        userName: newUser.userName,
+        profilePic: newUser.profilePic,
+      });
+    } else {
+      res.send(400).json({ error: "Invalid user data" });
+    }
+  } catch (error) {
+    console.log("Error in signUp controller", error.message);
+    res.status(500).json({ error: "Internal Server error" });
+  }
 };
 
 //login user api
