@@ -5,31 +5,36 @@
 import mongoose from "mongoose";
 
 // this is how each instance of an users collection [i.e table] entry will look like
-const userSchema = new mongoose.Schema({
-  fullName: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    fullName: {
+      type: String,
+      required: true,
+    },
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    gender: {
+      type: String,
+      required: true,
+      enum: ["male", "female"], // use it when input must match predefined values
+    },
+    profilePic: {
+      type: String,
+      default: "",
+    },
   },
-  userName: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-  },
-  gender: {
-    type: String,
-    required: true,
-    enum: ["male", "female"], // use it when input must match predefined values
-  },
-  profilePic: {
-    type: String,
-    default: "",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const User = mongoose.model("User", userSchema); // make an users collection with userschema as reference, User -> users automatically
 
