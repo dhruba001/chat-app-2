@@ -3,7 +3,7 @@ import mongoose, { mongo } from "mongoose";
 const messageSchema = new mongoose.Schema(
   {
     senderId: {
-      type: mongoose.Schema.Types.ObjectId, // it's a reference from User schema
+      type: mongoose.Schema.Types.ObjectId, // it's a reference from User schema, finds object id of user
       ref: "User",
       required: true,
     },
