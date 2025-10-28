@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import connectToMongoDB from "./DB/connectToMongoDB.js";
 import authRoutes from "../backend/routes/auth.routes.js";
 import messageRoutes from "../backend/routes/message.routes.js";
+import userRoutes from "../backend/routes/user.routes.js";
 //variables
 const app = express(); // making express app instance
 const PORT = process.env.PORT || 5000; // getting port from env variable
@@ -20,6 +21,7 @@ app.use(cookieParser()); // to parse the incoming cookies from req.cookies
 
 // * all the auth, user and message routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
