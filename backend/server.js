@@ -1,6 +1,7 @@
 //package imports
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 //file imports
 import connectToMongoDB from "./DB/connectToMongoDB.js";
 import authRoutes from "../backend/routes/auth.routes.js";
@@ -15,6 +16,7 @@ dotenv.config();
 
 app.use(express.json()); // middleware : allows server to understand and handle data sent in JSON format from frontend in backend
 //from req.body as frontend data gets to backend in json format
+app.use(cookieParser()); // to parse the incoming cookies from req.cookies
 
 // * all the auth, user and message routes
 app.use("/api/auth", authRoutes);
