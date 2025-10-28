@@ -3,6 +3,7 @@
 
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 // descriptions of api's used in authentication part
 
@@ -20,7 +21,7 @@ export const signupUser = async (req, res) => {
       res.status(400).json({ error: "Username already exist" });
     }
 
-    // todo: password hashing
+    // password hashing
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -38,6 +39,8 @@ export const signupUser = async (req, res) => {
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
     });
     if (newUser) {
+      // making jwt token
+      generateTokenAndSetCookie(newUser._id, res);
       // making final db entry
       await newUser.save();
       /*
