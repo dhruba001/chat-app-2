@@ -38,6 +38,10 @@ export const sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id); //kepping track of message by the id in conversation,
       // put message in message array in conversation
     }
+
+    // now save the message and the conversation
+    await Promise.all([conversation.save(), newMessage.save()]);
+
     // now return the new created message if everything is fine
     res.status(201).json(newMessage);
     //
