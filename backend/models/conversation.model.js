@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// this is for the full conversation history of 2 individuals
 const conversationSchema = new mongoose.Schema(
   {
     participants: [
