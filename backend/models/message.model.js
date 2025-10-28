@@ -1,5 +1,5 @@
-import mongoose, { mongo } from "mongoose";
-
+import mongoose from "mongoose";
+// this is for individual messages
 const messageSchema = new mongoose.Schema(
   {
     senderId: {
