@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 //file imports
 import connectToMongoDB from "./DB/connectToMongoDB.js";
 import authRoutes from "../backend/routes/auth.routes.js";
+import messageRoutes from "../backend/routes/message.routes.js";
 //variables
 const app = express(); // making express app instance
 const PORT = process.env.PORT || 5000; // getting port from env variable
@@ -14,7 +15,10 @@ dotenv.config();
 
 app.use(express.json()); // middleware : allows server to understand and handle data sent in JSON format from frontend in backend
 //from req.body as frontend data gets to backend in json format
-app.use("/api/auth", authRoutes); // middleware
+
+// * all the auth, user and message routes
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();
