@@ -88,12 +88,18 @@ export const loginUser = async (req, res) => {
       userName: user.userName,
     });
   } catch (error) {
-    console.log("Error in signUp controller", error.message);
+    console.log("Error in login controller", error.message);
     res.status(500).json({ error: "Internal Server error" });
   }
 };
 
 //logout user api
 export const logoutUser = (req, res) => {
-  res.send("logout route");
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ error: "Internal Server error" });
+  }
 };
