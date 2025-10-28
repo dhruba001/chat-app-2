@@ -13,12 +13,12 @@ export const signupUser = async (req, res) => {
     const { fullName, userName, password, confirmPassword, gender } = req.body; // getting data as user enters in frontend form
 
     if (password !== confirmPassword) {
-      res.status(400).json({ error: "Passwords do not match" });
+      return res.status(400).json({ error: "Passwords do not match" });
     }
 
     const user = await User.findOne({ userName });
     if (user) {
-      res.status(400).json({ error: "Username already exist" });
+      return res.status(400).json({ error: "Username already exist" });
     }
 
     // password hashing
@@ -67,8 +67,30 @@ export const signupUser = async (req, res) => {
 };
 
 //login user api
-export const loginUser = (req, res) => {
-  res.send("login route");
+export const loginUser = async (req, res) => {
+  try {
+    const { userName, password } = req.body;
+    const user = await User.findOne({ userName });
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
+
+    if (!user || !isPasswordValid) {
+      return res.status(200).json({ error: "Invalid username or password" });
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+      id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+    });
+  } catch (error) {
+    console.log("Error in signUp controller", error.message);
+    res.status(500).json({ error: "Internal Server error" });
+  }
 };
 
 //logout user api
