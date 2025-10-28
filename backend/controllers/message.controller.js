@@ -8,7 +8,7 @@ export const sendMessage = async (req, res) => {
     // like this http://localhost:5000/api/messages/send/6900a6feec1f29771a49dffd
     // so here the id is in req.params.id, and we destructure it and then rename the id as
     // receiver id
-    const senderId = req.user._id;
+    const senderId = req.user._id; // it is coming due to protectRoute, it is sending the loggedin user details
 
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
@@ -35,7 +35,8 @@ export const sendMessage = async (req, res) => {
 
     // if message creation is success
     if (newMessage) {
-      conversation.messages.push(newMessage._id); //kepping track of message by the id in conversation
+      conversation.messages.push(newMessage._id); //kepping track of message by the id in conversation,
+      // put message in message array in conversation
     }
     // now return the new created message if everything is fine
     res.status(201).json(newMessage);
